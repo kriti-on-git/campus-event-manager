@@ -17,6 +17,7 @@ from .auth import (
 from .routers.events import router as event_router
 from .routers.registrations import router as registration_router
 from .routers.tasks import router as task_router
+from .routers.announcements import router as announcement_router
 
 # One-time table setup. Future migrations can bully this later.
 Base.metadata.create_all(bind=engine)
@@ -33,6 +34,9 @@ app.include_router(
 )
 
 app.include_router(task_router)
+
+
+app.include_router(announcement_router)
 
 @app.get("/")
 def home():

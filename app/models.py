@@ -72,3 +72,17 @@ class Task(Base):
 
     event = relationship("Event", back_populates="tasks")
     volunteer = relationship("User", back_populates="tasks")
+
+class Announcement(Base):
+    __tablename__ = "announcements"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    title = Column(String, nullable=False)
+    content = Column(Text, nullable=False)
+
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=True)
+
+    created_by = Column(Integer, ForeignKey("users.id"))
+
+    created_at = Column(DateTime, default=datetime.utcnow)
