@@ -9,6 +9,7 @@ from .database import Base
 from sqlalchemy import UniqueConstraint
 from sqlalchemy import Text
 from sqlalchemy import ForeignKey
+from sqlalchemy import Enum
 
 class User(Base):
     __tablename__ = "users"
@@ -120,4 +121,32 @@ class Registration(Base):
             "event_id",
             name="unique_registration"
         ),
+    )
+
+class Task(Base):
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    title = Column(String, nullable=False)
+    description = Column(Text, nullable=True)
+
+    status = Column(
+        String,
+        default="Pending"
+    )
+
+    event_id = Column(
+        Integer,
+        ForeignKey("events.id")
+    )
+
+    volunteer_id = Column(
+        Integer,
+        ForeignKey("users.id")
+    )
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
     )
