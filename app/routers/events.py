@@ -14,30 +14,8 @@ templates = Jinja2Templates(
 )
 
 
-def get_current_user(
-    request: Request,
-    db: Session,
-):
-    token = request.cookies.get(
-        "access_token"
-    )
-
-    if not token:
-        return None
-
-    payload = verify_token(token)
-
-    if not payload:
-        return None
-
-    return (
-        db.query(User)
-        .filter(
-            User.id == payload["user_id"]
-        )
-        .first()
-    )
-
+from app.dependencies import get_current_user
+from app.dependencies import require_admin
 
 @router.get("/events")
 def list_events(
