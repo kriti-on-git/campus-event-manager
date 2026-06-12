@@ -15,6 +15,7 @@ from .auth import (
     verify_token,
 )
 from .routers.events import router as event_router
+from .routers.registrations import router as registration_router
 
 # One-time table setup. Future migrations can bully this later.
 Base.metadata.create_all(bind=engine)
@@ -26,6 +27,9 @@ app.include_router(
     event_router
 )
 
+app.include_router(
+    registration_router
+)
 
 @app.get("/")
 def home():

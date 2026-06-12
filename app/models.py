@@ -6,7 +6,7 @@ from sqlalchemy import DateTime
 from datetime import datetime
 
 from .database import Base
-
+from sqlalchemy import UniqueConstraint
 from sqlalchemy import Text
 from sqlalchemy import ForeignKey
 
@@ -92,4 +92,32 @@ class Event(Base):
     created_by = Column(
         Integer,
         ForeignKey("users.id")
+    )
+
+
+class Registration(Base):
+    __tablename__ = "registrations"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id")
+    )
+
+    event_id = Column(
+        Integer,
+        ForeignKey("events.id")
+    )
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "event_id",
+            name="unique_registration"
+        ),
     )
