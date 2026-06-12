@@ -7,6 +7,8 @@ from datetime import datetime
 
 from .database import Base
 
+from sqlalchemy import Text
+from sqlalchemy import ForeignKey
 
 class User(Base):
     __tablename__ = "users"
@@ -34,4 +36,60 @@ class User(Base):
     created_at = Column(
         DateTime,
         default=datetime.utcnow
+    )
+
+
+
+
+class Event(Base):
+    __tablename__ = "events"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    title = Column(
+        String,
+        nullable=False
+    )
+
+    description = Column(
+        Text
+    )
+
+    venue = Column(
+        String,
+        nullable=False
+    )
+
+    date = Column(
+        String,
+        nullable=False
+    )
+
+    time = Column(
+        String,
+        nullable=False
+    )
+
+    capacity = Column(
+        Integer,
+        default=100
+    )
+
+    category = Column(
+        String,
+        default="General"
+    )
+
+    status = Column(
+        String,
+        default="Upcoming"
+    )
+
+    created_by = Column(
+        Integer,
+        ForeignKey("users.id")
     )

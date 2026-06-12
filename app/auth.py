@@ -1,5 +1,9 @@
 from datetime import datetime, timedelta
+from fastapi import Request, Depends
+from sqlalchemy.orm import Session
 
+from .database import get_db
+from .models import User
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 

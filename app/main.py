@@ -3,6 +3,8 @@ from fastapi import FastAPI, Request, Form, Depends, HTTPException
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
+from datetime import datetime
+from .models import Event
 
 from .database import Base, engine, get_db
 from .models import User
@@ -12,12 +14,17 @@ from .auth import (
     create_access_token,
     verify_token,
 )
+from .routers.events import router as event_router
 
 # One-time table setup. Future migrations can bully this later.
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 templates = Jinja2Templates(directory="app/templates")
+
+app.include_router(
+    event_router
+)
 
 
 @app.get("/")
