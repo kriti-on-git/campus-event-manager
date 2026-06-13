@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Campus Portal{% endblock %}</title>
+    
+    <!-- Corrected & Fixed Lucide Icons Package CDN Link -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script defer src="/static/js/main.js"></script>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR CORE COMPONENT WITH DYNAMIC ACCESS CONTROL -->
+<aside class="sidebar">
+    <div class="logo-wrapper">
+        <h3 class="logo">Campus<span>X</span></h3>
+    </div>
+
+    <nav class="nav-menu">
+        <!-- GLOBAL: All users have a personalized Dashboard -->
+        <a href="/dashboard" class="nav-link" data-page="dashboard">
+            <i data-lucide="layout-dashboard"></i> Dashboard
+        </a>
+
+        <!-- ROLE BASED: Admin Options -->
+        {% if user.role == "admin" %}
+            <a href="/events" class="nav-link" data-page="events">
+                <i data-lucide="calendar"></i> Explore Events
+            </a>
+            <!-- Accessible only by Admins & Volunteers -->
+            <a href="/registrations" class="nav-link" data-page="registrations">
+                <i data-lucide="users"></i> Registrations
+            </a>
+            <a href="/tasks" class="nav-link" data-page="tasks">
+                <i data-lucide="check-square"></i> Task Management
+            </a>
+            <a href="/announcements" class="nav-link" data-page="announcements">
+                <i data-lucide="megaphone"></i> Announcements
+            </a>
+
+        <!-- ROLE BASED: Volunteer Options -->
+        {% elif user.role == "volunteer" %}
+            <a href="/events" class="nav-link" data-page="events">
+                <i data-lucide="calendar"></i> Explore Events
+            </a>
+            <a href="/tasks" class="nav-link" data-page="tasks">
+                <i data-lucide="check-square"></i> Tasks Assigned
+            </a>
+            <!-- Shared with Admin as per requirements -->
+            <a href="/registrations" class="nav-link" data-page="registrations">
+                <i data-lucide="users"></i> Registrations
+            </a>
+            <a href="/announcements" class="nav-link" data-page="announcements">
+                <i data-lucide="megaphone"></i> Announcements
+            </a>
+
+        <!-- ROLE BASED: Participant Options -->
+        {% elif user.role == "participant" %}
+            <a href="/events" class="nav-link" data-page="events">
+                <i data-lucide="calendar"></i> Explore Events
+            </a>
+            <a href="/my-events" class="nav-link" data-page="my-events">
+                <i data-lucide="bookmark-check"></i> My Registrations
+            </a>
+            <a href="/announcements" class="nav-link" data-page="announcements">
+                <i data-lucide="megaphone"></i> Announcements
+            </a>
+        {% endif %}
+    </nav>
+</aside>
+
+    <!-- MAIN VIEWPORT -->
+    <main class="main">
+
+        <!-- STICKY TOPBAR PLATFORM -->
+        <header class="topbar">
+            <div class="search-wrapper">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Search events, tokens, updates..." class="search-input">
+            </div>
+
+            <div class="profile-actions">
+                <a href="/logout" class="btn btn-outline-danger btn-sm d-inline-flex align-items-center gap-2">
+                    <i data-lucide="log-out" style="width:14px; height:14px;"></i> Secure Log Out
+                </a>
+            </div>
+        </header>
+
+        <!-- ROUTED SURFACE CANVAS -->
+        <div class="content p-4">
+            {% block content %}{% endblock %}
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    // Initialize Lucide icons correctly
+    lucide.createIcons();
+
+    // Auto-highlight current navigation menu item based on current URL path
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (window.location.pathname.startsWith(link.getAttribute('href'))) {
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            link.classList.add('active');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,33 +1,143 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Events</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% extends "base.html" %}
 
-<body class="container mt-4">
+{% block title %}My Registered Events - Campus Portal{% endblock %}
 
-<h2>My Registered Events</h2>
+{% block content %}
+<div class="container-fluid px-0">
 
-<table class="table">
+    <!-- MINIMALIST HERO HEADER CONSOLE -->
+    <div class="card border-0 bg-white border-bottom rounded-0 mx-n4 mt-n4 mb-4 p-4 shadow-none">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="p-3 rounded-3 text-theme-primary" style="background-color: var(--theme-olive-subtle);">
+                    <i data-lucide="bookmark-check" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h1 class="h3 fw-bold text-dark mb-1">My Registered Events</h1>
+                    <p class="text-secondary small mb-0">Track rosters, venues, and schedules for events you are actively participating in.</p>
+                </div>
+            </div>
+            
+            {% if events and events|length > 0 %}
+            <div class="bg-white px-3 py-2 rounded-3 border">
+                <span class="small fw-semibold text-secondary d-flex align-items-center gap-2">
+                    <i data-lucide="layers" class="text-theme-primary" style="width: 14px; height: 14px;"></i>
+                    Allocated: {{ events|length }} Placements
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
-<tr>
-    <th>Title</th>
-    <th>Venue</th>
-    <th>Date</th>
-</tr>
+    <!-- DATA CONDITION CONDITIONAL SPLIT ENGINE -->
+    {% if not events or events|length == 0 %}
+        <!-- STYLED EMPTY STATE ACTION CANVAS -->
+        <div class="text-center py-5 bg-white rounded-3 shadow-sm border border-dashed border-2 my-4">
+            <div class="p-3 bg-theme-subtle rounded-circle d-inline-block text-theme-primary mb-3">
+                <i data-lucide="calendar" style="width: 36px; height: 36px;"></i>
+            </div>
+            <h4 class="h5 fw-bold text-dark mb-2">No Registered Events Found</h4>
+            <p class="text-secondary small mb-4 mx-auto" style="max-width: 320px;">Your active roster allocation is empty. Browse the live campus catalog to claim seats.</p>
+            <a href="/events" class="btn btn-theme-primary px-4 fw-medium shadow-sm">
+                <i data-lucide="search" class="me-2" style="width:16px; height:16px; vertical-align: middle;"></i>Browse Live Events
+            </a>
+        </div>
+    {% else %}
+        <!-- NATIVE RESPONSIVE GRID LAYOUT SYSTEM (IMAGE-FREE NO-IMAGE CORE) -->
+        <div class="row g-4">
+            {% for event in events %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm bg-white overflow-hidden text-card-layout position-relative">
+                    
+                    <!-- Left Accent Brand Strip Border Line -->
+                    <div class="position-absolute top-0 start-0 bottom-0" style="width: 4px; background-color: var(--theme-olive);"></div>
+                    
+                    <div class="card-body p-4 ps-4-5 d-flex flex-column justify-content-between">
+                        <div>
+                            <!-- Header Element: Category Label and Status Badge -->
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <span class="badge bg-theme-subtle text-theme-primary fw-bold text-uppercase tracking-wider px-2.5 py-1" style="font-size: 0.65rem; border: 1px solid rgba(85, 107, 47, 0.12);">
+                                    {{ event.category or 'General' }}
+                                </span>
+                                <span class="badge bg-success-subtle text-success border border-success border-opacity-10 px-2 py-1 rounded-pill fw-bold small d-inline-flex align-items-center gap-1" style="font-size: 0.7rem;">
+                                    <i data-lucide="check" style="width: 12px; height: 12px; stroke-width: 3px;"></i>
+                                    Confirmed
+                                </span>
+                            </div>
 
-{% for event in events %}
+                            <!-- Dynamic Event Title Tag -->
+                            <h5 class="card-title fw-bold text-dark mb-3 lh-base">{{ event.title }}</h5>
+                            
+                            <!-- Tabular Alignment Metadata Row Details -->
+                            <div class="d-flex flex-column gap-2.5 mb-4 text-secondary small">
+                                <div class="d-flex align-items-start gap-2">
+                                    <i data-lucide="map-pin" class="text-theme-primary mt-0.5" style="width:15px; height:15px; flex-shrink: 0;"></i>
+                                    <span class="text-truncate" title="{{ event.venue }}">{{ event.venue }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i data-lucide="calendar" class="text-theme-primary" style="width:15px; height:15px; flex-shrink: 0;"></i>
+                                    <span>{{ event.date }}</span>
+                                </div>
+                                {% if event.time %}
+                                <div class="d-flex align-items-center gap-2">
+                                    <i data-lucide="clock" class="text-theme-primary" style="width:15px; height:15px; flex-shrink: 0;"></i>
+                                    <span>{{ event.time }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
 
-<tr>
-    <td>{{ event.title }}</td>
-    <td>{{ event.venue }}</td>
-    <td>{{ event.date }}</td>
-</tr>
+                        <!-- Action/Status Boundary Base Panel -->
+                        <div class="pt-3 border-top border-light d-flex align-items-center justify-content-between">
+                            <span class="text-muted small fw-medium d-inline-flex align-items-center gap-1.5" style="font-size: 0.75rem;">
+                                <i data-lucide="ticket" style="width:14px; height:14px;"></i>
+                                Active Seat Pass
+                            </span>
+                            <span class="text-secondary small font-monospace" style="font-size: 0.7rem; opacity: 0.7;">
+                                ID: #{{ event.id }}
+                            </span>
+                        </div>
 
-{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-</table>
+</div>
 
-</body>
-</html>
+<!-- Replace the style section at the bottom with this valid CSS -->
+<style>
+    .text-card-layout {
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
+        border: 1px solid rgba(85, 107, 47, 0.05) !important;
+    }
+    .text-card-layout:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(85, 107, 47, 0.06) !important;
+        border-color: rgba(85, 107, 47, 0.15) !important;
+    }
+    .ps-custom-padding {
+        padding-left: 1.5rem !important;
+    }
+    .gap-custom-spacing { 
+        gap: 0.6rem !important; 
+    }
+    .px-custom-badge { 
+        padding-left: 0.6rem !important; 
+        padding-right: 0.6rem !important; 
+    }
+    .mt-icon-alignment { 
+        margin-top: 3px; 
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Render vectors cleanly
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

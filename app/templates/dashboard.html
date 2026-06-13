@@ -1,37 +1,227 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
 
-<title>Dashboard</title>
+{% block title %}Dashboard - Campus Portal{% endblock %}
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+{% block content %}
+<div class="container-fluid px-0">
 
-</head>
+    <!-- HEADER SECTON -->
+    <div class="mb-4 pb-3 border-bottom d-flex align-items-center justify-content-between">
+        <div>
+            <h2 class="h3 fw-bold text-dark mb-1">Welcome Back, {{ user.name }}</h2>
+            <p class="text-secondary mb-0">Manage events, tasks, and announcements from one integrated place.</p>
+        </div>
+        <div class="d-none d-md-block">
+            <span class="badge bg-theme-subtle text-theme-primary px-3 py-2 rounded-pill fw-semibold border">
+                <i data-lucide="shield-check" class="me-1" style="width: 14px; height: 14px; vertical-align: middle;"></i>
+                {{ user.role | title }} Account
+            </span>
+        </div>
+    </div>
 
-<body class="container mt-5">
+    <!-- KPI CARDS GRID -->
+    <div class="row g-3 mb-5">
+        <!-- Role KPI -->
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 bg-white">
+                <div class="card-body p-4 d-flex align-items-center gap-3">
+                    <div class="p-3 bg-theme-subtle rounded-3 text-theme-primary">
+                        <i data-lucide="user" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-secondary small fw-bold text-uppercase tracking-wider mb-1">Your Role</h6>
+                        <h3 class="h4 fw-bold text-dark mb-0">{{ user.role | title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h1>Dashboard</h1>
+        <!-- Email KPI -->
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 bg-white">
+                <div class="card-body p-4 d-flex align-items-center gap-3">
+                    <div class="p-3 bg-theme-subtle rounded-3 text-theme-primary">
+                        <i data-lucide="mail" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <div class="text-truncate" style="max-width: 100%;">
+                        <h6 class="text-secondary small fw-bold text-uppercase tracking-wider mb-1">Email Address</h6>
+                        <h3 class="h5 fw-bold text-dark mb-0 text-truncate">{{ user.email }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<hr>
+        <!-- Status KPI -->
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 bg-white">
+                <div class="card-body p-4 d-flex align-items-center gap-3">
+                    <div class="p-3 bg-success-subtle rounded-3 text-success">
+                        <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-secondary small fw-bold text-uppercase tracking-wider mb-1">Portal Status</h6>
+                        <h3 class="h4 fw-bold text-success mb-0 d-flex align-items-center gap-2">
+                            Active
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<h4>Name: {{ user.name }}</h4>
+    <!-- QUICK ACCESS MATRIX -->
+<div class="mb-3">
+    <h5 class="fw-bold text-dark d-flex align-items-center gap-2 mb-3">
+        <i data-lucide="key-round" class="text-theme-primary" style="width: 18px; height: 18px;"></i>
+        Quick Access Matrix
+    </h5>
+</div>
 
-<h4>Email: {{ user.email }}</h4>
+<div class="row g-3 mb-5">
 
-<h4>Role: {{ user.role }}</h4>
+    <!-- COMMON FOR ALL ROLES -->
+    
+    <!-- Events Hub -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="/events" class="card border-0 shadow-sm text-decoration-none h-100 bg-white action-card transition-hover">
+            <div class="card-body p-4">
+                <div class="text-theme-primary mb-3">
+                    <i data-lucide="calendar" style="width: 28px; height: 28px;"></i>
+                </div>
+                <h5 class="h6 fw-bold text-dark mb-2">Events Hub</h5>
+                <p class="text-secondary small mb-0">Browse scheduled items & register dynamic spots.</p>
+            </div>
+        </a>
+    </div>
 
-<br>
-<a href="/events">Events</a> |
-<a href="/my-events">My Events</a> |
-<a href="/tasks">Tasks</a> |
-<a href="/announcements">Announcements</a>
-<a
-class="btn btn-danger"
-href="/logout">
+    <!-- ================= ADMIN ================= -->
+    {% if user.role == "admin" %}
 
-Logout
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="/registrations" class="card border-0 shadow-sm text-decoration-none h-100 bg-white action-card transition-hover">
+            <div class="card-body p-4">
+                <div class="text-theme-primary mb-3">
+                    <i data-lucide="users" style="width: 28px; height: 28px;"></i>
+                </div>
+                <h5 class="h6 fw-bold text-dark mb-2">Registrations</h5>
+                <p class="text-secondary small mb-0">View all participant registrations.</p>
+            </div>
+        </a>
+    </div>
 
-</a>
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="/tasks" class="card border-0 shadow-sm text-decoration-none h-100 bg-white action-card transition-hover">
+            <div class="card-body p-4">
+                <div class="text-theme-primary mb-3">
+                    <i data-lucide="check-square" style="width: 28px; height: 28px;"></i>
+                </div>
+                <h5 class="h6 fw-bold text-dark mb-2">Task Management</h5>
+                <p class="text-secondary small mb-0">Assign and manage volunteer tasks.</p>
+            </div>
+        </a>
+    </div>
 
-</body>
-</html>
+    {% endif %}
+
+    <!-- ================= VOLUNTEER ================= -->
+    {% if user.role == "volunteer" %}
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="/tasks" class="card border-0 shadow-sm text-decoration-none h-100 bg-white action-card transition-hover">
+            <div class="card-body p-4">
+                <div class="text-theme-primary mb-3">
+                    <i data-lucide="check-square" style="width: 28px; height: 28px;"></i>
+                </div>
+                <h5 class="h6 fw-bold text-dark mb-2">My Tasks</h5>
+                <p class="text-secondary small mb-0">View assigned tasks & confirm completion.</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="/registrations" class="card border-0 shadow-sm text-decoration-none h-100 bg-white action-card transition-hover">
+            <div class="card-body p-4">
+                <div class="text-theme-primary mb-3">
+                    <i data-lucide="users" style="width: 28px; height: 28px;"></i>
+                </div>
+                <h5 class="h6 fw-bold text-dark mb-2">Participant Registrations</h5>
+                <p class="text-secondary small mb-0">Monitor event participation list.</p>
+            </div>
+        </a>
+    </div>
+
+    {% endif %}
+
+    <!-- ================= PARTICIPANT ================= -->
+    {% if user.role == "participant" %}
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="/my-events" class="card border-0 shadow-sm text-decoration-none h-100 bg-white action-card transition-hover">
+            <div class="card-body p-4">
+                <div class="text-theme-primary mb-3">
+                    <i data-lucide="bookmark-check" style="width: 28px; height: 28px;"></i>
+                </div>
+                <h5 class="h6 fw-bold text-dark mb-2">My Registrations</h5>
+                <p class="text-secondary small mb-0">Track events you have registered for.</p>
+            </div>
+        </a>
+    </div>
+
+    {% endif %}
+
+    <!-- COMMON -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="/announcements" class="card border-0 shadow-sm text-decoration-none h-100 bg-white action-card transition-hover">
+            <div class="card-body p-4">
+                <div class="text-theme-primary mb-3">
+                    <i data-lucide="megaphone" style="width: 28px; height: 28px;"></i>
+                </div>
+                <h5 class="h6 fw-bold text-dark mb-2">Announcements</h5>
+                <p class="text-secondary small mb-0">Read system-wide updates.</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+    <!-- INTEGRATED PROFILE CONSOLE -->
+    <div class="card border-0 shadow-sm bg-white overflow-hidden mb-4">
+        <div class="card-body p-4 d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3 text-center text-sm-start flex-column flex-sm-row">
+                <!-- Profile Initial Avatar Placeholder -->
+                <div class="rounded-circle bg-theme-primary text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 52px; height: 52px; font-size: 1.25rem;">
+                    {{ user.name[0] | upper }}
+                </div>
+                <div>
+                    <h5 class="h6 fw-bold text-dark mb-1">{{ user.name }}</h5>
+                    <p class="text-secondary small mb-0">{{ user.email }} &bull; Secure Session Running</p>
+                </div>
+            </div>
+            <a href="/logout" class="btn btn-outline-danger px-4 d-inline-flex align-items-center gap-2">
+                <i data-lucide="log-out" style="width: 16px; height: 16px;"></i> Secure Log Out
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<!-- Additional Micro-UX Animations -->
+<style>
+    .transition-hover {
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .transition-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1.5rem rgba(85, 107, 47, 0.08) !important;
+        border: 1px solid rgba(85, 107, 47, 0.2) !important;
+    }
+    .action-card {
+        border: 1px solid rgba(85, 107, 47, 0.05) !important;
+    }
+</style>
+
+<script>
+    // Explicitly verify and refresh icons injected on this specific page layer
+    lucide.createIcons();
+</script>
+{% endblock %}

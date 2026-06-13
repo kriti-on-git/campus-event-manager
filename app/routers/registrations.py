@@ -100,3 +100,46 @@ def my_events(
             "user": user
         }
     )
+
+from app.models import User 
+
+@router.get("/registrations")
+def view_all_registrations(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    #  Enforce user authentication state
+    user = require_login(request=request, db=db)
+
+    #  Hard access barrier: block participants from viewing this database matrix
+    if user.role not in ["admin", "volunteer"]:
+        return RedirectResponse(url="/dashboard", status_code=303)
+
+    #  Optimized relational database cross-join query fetching User information alongside Event records
+    records = (
+        db.query(Registration, User, Event)
+        .join(User, Registration.user_id == User.id)
+        .join(Event, Registration.event_id == Event.id)
+        .order_by(Registration.id.desc()) # Puts the latest actions at the top of your list grid
+        .all()
+    )
+
+    
+    parsed_registrations = []
+    for reg, participant, event in records:
+        parsed_registrations.append({
+            "id": reg.id,
+            "participant_name": participant.name,
+            "participant_email": participant.email,
+            "event_title": event.title,
+            "event_category": event.category or "General"
+        })
+
+    return templates.TemplateResponse(
+        request=request,
+        name="registrations.html",
+        context={
+            "registrations": parsed_registrations,
+            "user": user
+        }
+    )

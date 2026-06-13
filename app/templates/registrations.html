@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Master Registrations - Campus Portal{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+
+    <!-- MINIMALIST HERO HEADER CONSOLE -->
+    <div class="card border-0 bg-white border-bottom rounded-0 mx-n4 mt-n4 mb-4 p-4 shadow-none">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="p-3 rounded-3 text-theme-primary" style="background-color: var(--theme-olive-subtle);">
+                    <i data-lucide="users" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h1 class="h3 fw-bold text-dark mb-1">Participant Registrations</h1>
+                    <p class="text-secondary small mb-0">Review active seat allocations, browse attendee lists, and coordinate event rosters.</p>
+                </div>
+            </div>
+            
+            {% if registrations %}
+            <div class="bg-white px-3 py-2 rounded-3 border">
+                <span class="small fw-semibold text-secondary d-flex align-items-center gap-2">
+                    <i data-lucide="activity" class="text-theme-primary" style="width: 14px; height: 14px;"></i>
+                    Active Roster Volume: {{ registrations|length }}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- MAIN INTERACTIVE DATA READOUT CANVAS -->
+    {% if not registrations or registrations|length == 0 %}
+        <!-- STYLED EMPTY STATE ACTION CANVAS -->
+        <div class="text-center py-5 bg-white rounded-3 shadow-sm border border-dashed border-2 my-4">
+            <div class="p-3 bg-theme-subtle rounded-circle d-inline-block text-theme-primary mb-3">
+                <i data-lucide="user-x" style="width: 36px; height: 36px;"></i>
+            </div>
+            <h4 class="h5 fw-bold text-dark mb-2">No Registrations Logs Logged</h4>
+            <p class="text-secondary small mb-0 mx-auto" style="max-width: 320px;">No students have registered for any published events inside the ecosystem database yet.</p>
+        </div>
+    {% else %}
+        <!-- DENSE PREMIUM TEXT-LIST OVERRIDES MATRIX -->
+        <div class="d-flex flex-column gap-3">
+            {% for r in registrations %}
+            <div class="card border-0 shadow-sm bg-white text-card-layout position-relative overflow-hidden">
+                <!-- Brand theme left structural side margin stripe -->
+                <div class="position-absolute top-0 start-0 bottom-0" style="width: 4px; background-color: var(--theme-olive);"></div>
+                
+                <div class="card-body p-4 ps-custom-padding">
+                    <div class="row align-items-center g-3">
+                        
+                        <!-- Left Data Cell: Participant Detail Coordinates -->
+                        <div class="col-12 col-md-5">
+                            <div class="d-flex align-items-center gap-3">
+                                <!-- Profile Letter Avatar Placeholder Block -->
+                                <div class="rounded-circle bg-theme-primary text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 42px; height: 42px; font-size: 1rem; flex-shrink:0;">
+                                    {{ r.participant_name | upper | first }}
+                                </div>
+                                <div class="text-truncate">
+                                    <h5 class="h6 fw-bold text-dark mb-1 text-truncate">{{ r.participant_name }}</h5>
+                                    <p class="text-secondary small mb-0 text-truncate font-monospace" style="opacity:0.85;">{{ r.participant_email }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mid Data Cell: Booked Target Event Coordinates -->
+                        <div class="col-12 col-md-5">
+                            <div class="d-flex flex-column gap-1">
+                                <span class="badge bg-theme-subtle text-theme-primary text-uppercase font-weight-bold px-custom-badge py-1 align-self-start mb-1" style="font-size: 0.6rem; border: 1px solid rgba(85, 107, 47, 0.1);">
+                                    {{ r.event_category }}
+                                </span>
+                                <h6 class="text-dark small fw-bold mb-0 text-truncate d-flex align-items-center gap-1.5">
+                                    <i data-lucide="calendar" class="text-theme-primary" style="width:14px; height:14px;"></i>
+                                    {{ r.event_title }}
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- Right Data Cell: Status Node Pass Markers -->
+                        <div class="col-12 col-md-2 text-md-end">
+                            <span class="badge bg-success-subtle text-success border border-success border-opacity-10 px-3 py-1.5 rounded-pill fw-bold" style="font-size: 0.725rem;">
+                                Registered
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- INTEGRATED CSS SPECIFIC OVERRIDES (NO SYNTAX DECIMALS WRITTEN HERE) -->
+<style>
+    .text-card-layout {
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
+        border: 1px solid rgba(85, 107, 47, 0.05) !important;
+    }
+    .text-card-layout:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(85, 107, 47, 0.05) !important;
+        border-color: rgba(85, 107, 47, 0.15) !important;
+    }
+    .ps-custom-padding {
+        padding-left: 1.5rem !important;
+    }
+    .px-custom-badge {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Hydrate Lucide vector glyphs across layouts cleanly
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

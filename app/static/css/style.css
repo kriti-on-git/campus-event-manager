@@ -1,0 +1,320 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
+
+/* ==========================================================================
+   1. CORE THEME SYSTEM & VARIABLES
+   ========================================================================== */
+:root {
+    /* Color Palette */
+    --theme-olive: #556B2F;          /* Deep Rich Olive */
+    --theme-olive-light: #6B8E23;    /* Bright Accent Olive Drab */
+    --theme-olive-subtle: #F4F6F0;   /* Light Tinted Olive for backgrounds */
+    --theme-offwhite: #FDFBF7;       /* Warm Cozy Off-White Canvas */
+    --theme-card-bg: #FFFFFF;        /* Pure White for Surface Levels */
+    
+    /* Typography Colors */
+    --text-main: #2F3E16;            /* Deep Forest Charcoal for Reading */
+    --text-muted: #6C7A53;           /* Subdued Olive-Grey for Metadata */
+    
+    /* Structural Rules */
+    --sidebar-width: 260px;
+    --topbar-height: 70px;
+    --border-color: rgba(85, 107, 47, 0.08);
+    --radius-lg: 12px;
+    --radius-md: 8px;
+    --shadow-sm: 0 2px 8px rgba(85, 107, 47, 0.04);
+    --shadow-md: 0 4px 20px rgba(85, 107, 47, 0.08);
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   2. GLOBAL LAYOUT FRAMEWORK
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--theme-offwhite) !important;
+    color: var(--text-main) !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   3. SIDEBAR COMPONENT
+   ========================================================================== */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--theme-card-bg);
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    padding: 1.5rem 1rem;
+}
+
+.logo-wrapper {
+    padding: 0.5rem 1rem 2rem 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: var(--theme-olive);
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.nav-link i {
+    width: 18px;
+    height: 18px;
+    transition: var(--transition);
+}
+
+/* Navigation Interactive States */
+.nav-link:hover {
+    color: var(--theme-olive) !important;
+    background-color: var(--theme-olive-subtle);
+}
+
+.nav-link.active {
+    color: #ffffff !important;
+    background-color: var(--theme-olive) !important;
+    box-shadow: 0 4px 12px rgba(85, 107, 47, 0.2);
+}
+
+/* ==========================================================================
+   4. MAIN VIEWPORT & TOPBAR PLATFORM
+   ========================================================================== */
+.main {
+    margin-left: var(--sidebar-width);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0; /* Prevents flex items from breaking layout boundaries */
+}
+
+.topbar {
+    height: var(--topbar-height);
+    background-color: rgba(253, 251, 247, 0.8); /* Translucent Off-white */
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+/* Premium Rounded Search Box */
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--theme-card-bg);
+    border: 1.5px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    width: 320px;
+    transition: var(--transition);
+}
+
+.search-wrapper:focus-within {
+    border-color: var(--theme-olive);
+    box-shadow: 0 0 0 3px rgba(85, 107, 47, 0.1);
+}
+
+.search-wrapper i {
+    color: var(--text-muted);
+    width: 16px;
+    height: 16px;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    width: 100%;
+}
+
+.search-input::placeholder {
+    color: rgba(108, 122, 83, 0.6);
+}
+
+/* ==========================================================================
+   5. ROUTED SURFACE CANVAS (CONTENT AREA)
+   ========================================================================== */
+.content {
+    padding: 2rem !important;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   6. BETTER UX FORM ELEMENTS & BOOTSTRAP OVERRIDES
+   ========================================================================== */
+/* Premium Card Redesign */
+.card {
+    background-color: var(--theme-card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: var(--transition);
+}
+
+/* Clean Input Field Focus Handling */
+.form-control {
+    border: 2px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-main) !important;
+    background-color: var(--theme-card-bg) !important;
+    padding: 0.6rem 1rem !important;
+    font-size: 0.95rem !important;
+    transition: var(--transition) !important;
+}
+
+.form-control-lg {
+    padding: 0.75rem 1.2rem !important;
+    font-size: 1.05rem !important;
+}
+
+.form-control:focus {
+    border-color: var(--theme-olive) !important;
+    box-shadow: 0 0 0 4px rgba(85, 107, 47, 0.1) !important;
+    background-color: #ffffff !important;
+}
+
+/* Olive Theme Buttons */
+.btn-theme-primary {
+    background-color: var(--theme-olive) !important;
+    border-color: var(--theme-olive) !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: var(--radius-md) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    transition: var(--transition) !important;
+}
+
+.btn-theme-primary:hover {
+    background-color: var(--theme-olive-light) !important;
+    border-color: var(--theme-olive-light) !important;
+    transform: translateY(-1px);
+}
+
+.btn-theme-primary:active {
+    transform: translateY(0);
+}
+
+/* Context Text Overrides */
+.text-theme-primary {
+    color: var(--theme-olive) !important;
+}
+
+.bg-theme-subtle {
+    background-color: var(--theme-olive-subtle) !important;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE MEDIA QUERIES (MOBILE OPTIMIZATION)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 70px;
+        padding: 1.5rem 0.5rem;
+    }
+    
+    .logo-wrapper {
+        padding: 0.5rem 0 1.5rem 0;
+        text-center: center;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    
+    .logo span {
+        display: none; /* Hide 'X' to conserve room */
+    }
+    
+    .nav-link {
+        justify-content: center;
+        padding: 0.8rem;
+    }
+    
+    .nav-link span, 
+    .nav-menu text,
+    .nav-link {
+        font-size: 0; /* Hides text descriptions neatly */
+    }
+    
+    .nav-link i {
+        margin: 0;
+        width: 22px;
+        height: 22px;
+    }
+    
+    .main {
+        margin-left: 70px;
+    }
+    
+    .search-wrapper {
+        width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .topbar {
+        padding: 0 1rem;
+    }
+    
+    .search-wrapper {
+        display: none; /* Drop search box on small screens */
+    }
+    
+    .content {
+        padding: 1rem !important;
+    }
+}

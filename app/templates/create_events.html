@@ -1,63 +1,144 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
 
-<title>Create Event</title>
+{% block title %}Create Event - Campus Portal{% endblock %}
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+{% block content %}
+<div class="container-fluid px-0">
 
-</head>
+    <!-- MINIMALIST HERO HEADER CONSOLE -->
+    <div class="card border-0 bg-white border-bottom rounded-0 mx-n4 mt-n4 mb-4 p-4 shadow-none">
+        <div class="d-flex align-items-center gap-3">
+            <div class="p-3 rounded-3 text-theme-primary" style="background-color: var(--theme-olive-subtle);">
+                <i data-lucide="plus-circle" style="width: 28px; height: 28px;"></i>
+            </div>
+            <div>
+                <h1 class="h3 fw-bold text-dark mb-1">Create New Event</h1>
+                <p class="text-secondary small mb-0">Design, configure, and publish a campus-wide event instantly.</p>
+            </div>
+        </div>
+    </div>
 
-<body class="container mt-4">
+    <!-- MAIN TWO-COLUMN SPLIT ROW -->
+    <div class="row g-4">
+        
+        <!-- LEFT COLUMN: INPUT FORM ENGINE -->
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm bg-white p-4 p-md-5">
+                <form action="/events/create" method="post">
+                    
+                    <!-- Event Title -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label small fw-bold text-secondary text-uppercase tracking-wider">Event Title</label>
+                        <input type="text" id="title" name="title" class="form-control shadow-none border-2 focus-theme" placeholder="e.g., Annual Hackathon 2026" required>
+                    </div>
 
-<h2>Create Event</h2>
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label small fw-bold text-secondary text-uppercase tracking-wider">Event Details & Description</label>
+                        <textarea id="description" name="description" class="form-control shadow-none border-2 focus-theme" rows="4" placeholder="Provide complete scheduling instructions, target audience details, and prize breakdowns here..." required></textarea>
+                    </div>
 
-<form action="/events/create" method="post">
+                    <!-- Row Grid: Venue and Category -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label for="venue" class="form-label small fw-bold text-secondary text-uppercase tracking-wider">Venue Location</label>
+                            <input type="text" id="venue" name="venue" class="form-control shadow-none border-2 focus-theme" placeholder="e.g., Main Auditorium / Seminar Hall C" required>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="category" class="form-label small fw-bold text-secondary text-uppercase tracking-wider">Category Tag</label>
+                            <select id="category" name="category" class="form-select form-control shadow-none border-2 focus-theme" required>
+                                <option value="" disabled selected hidden>Choose Category...</option>
+                                <option value="Tech">Technical</option>
+                                <option value="Cultural">Cultural</option>
+                                <option value="Sports">Sports</option>
+                            </select>
+                        </div>
+                    </div>
 
-<input
-name="title"
-class="form-control mb-3"
-placeholder="Title">
+                    <!-- Row Grid: Date and Time -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label for="date" class="form-label small fw-bold text-secondary text-uppercase tracking-wider">Date Schedule</label>
+                            <input type="date" id="date" name="date" class="form-control shadow-none border-2 focus-theme" required>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="time" class="form-label small fw-bold text-secondary text-uppercase tracking-wider">Start Time</label>
+                            <input type="time" id="time" name="time" class="form-control shadow-none border-2 focus-theme" required>
+                        </div>
+                    </div>
 
-<textarea
-name="description"
-class="form-control mb-3"
-placeholder="Description">
-</textarea>
+                    <!-- Seat Capacity Configuration -->
+                    <div class="mb-4">
+                        <label for="capacity" class="form-label small fw-bold text-secondary text-uppercase tracking-wider">Max Roster Capacity</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-secondary border-2 border-end-0"><i data-lucide="users" style="width:16px;"></i></span>
+                            <input type="number" id="capacity" name="capacity" class="form-control shadow-none border-2 focus-theme" placeholder="e.g., 150 available placement seats" min="1" required>
+                        </div>
+                    </div>
 
-<input
-name="venue"
-class="form-control mb-3"
-placeholder="Venue">
+                    <!-- Action Submit Button Panel -->
+                    <button type="submit" class="btn btn-theme-primary w-100 py-2 fw-bold d-inline-flex align-items-center justify-content-center gap-2">
+                        <i data-lucide="send" style="width:18px; height:18px;"></i> Broadcast & Publish Event
+                    </button>
 
-<input
-type="date"
-name="date"
-class="form-control mb-3">
+                </form>
+            </div>
+        </div>
 
-<input
-type="time"
-name="time"
-class="form-control mb-3">
+        <!-- RIGHT COLUMN: SIDEBAR TIPS PANEL -->
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm bg-white p-4 h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="fw-bold text-dark mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                        <i data-lucide="lightbulb" class="text-theme-primary" style="width: 18px; height: 18px;"></i>
+                        Publishing Checklist
+                    </h5>
+                    
+                    <ul class="list-unstyled d-flex flex-column gap-3 mb-0 text-secondary small">
+                        <li class="d-flex gap-2">
+                            <i data-lucide="check-circle-2" class="text-theme-primary flex-shrink-0 mt-0-5" style="width:16px; height:16px;"></i>
+                            <span><strong>Concise Naming:</strong> Keep descriptions and title tags explicit so they render cleanly on user metric grids.</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i data-lucide="check-circle-2" class="text-theme-primary flex-shrink-0 mt-0-5" style="width:16px; height:16px;"></i>
+                            <span><strong>Precise Venues:</strong> Input clear physical landmarks or platform hyperlinks to avoid scheduling confusion.</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i data-lucide="check-circle-2" class="text-theme-primary flex-shrink-0 mt-0-5" style="width:16px; height:16px;"></i>
+                            <span><strong>Tag Accuracy:</strong> Selecting the proper type dropdown filter ensures your card drops into user query feeds smoothly.</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i data-lucide="check-circle-2" class="text-theme-primary flex-shrink-0 mt-0-5" style="width:16px; height:16px;"></i>
+                            <span><strong>Attendee Caps:</strong> Setting capacities limits active registration models automatically once limits wrap up.</span>
+                        </li>
+                    </ul>
+                </div>
 
-<input
-type="number"
-name="capacity"
-class="form-control mb-3">
+                <!-- Engagement Promo Highlight Block -->
+                <div class="mt-4 p-3 rounded-3 bg-theme-subtle border-start border-4 border-success d-flex gap-2">
+                    <i data-lucide="sparkles" class="text-success flex-shrink-0" style="width: 18px; height: 18px;"></i>
+                    <p class="text-dark small mb-0 fw-medium">
+                        Properly categorized events with explicit descriptions see up to 2x more user platform interaction.
+                    </p>
+                </div>
+            </div>
+        </div>
 
-<input
-name="category"
-class="form-control mb-3"
-placeholder="Category">
+    </div>
+</div>
 
-<button
-class="btn btn-success">
+<style>
+    .focus-theme:focus {
+        border-color: var(--theme-olive) !important;
+        background-color: var(--theme-offwhite) !important;
+        box-shadow: 0 0 0 4px rgba(85, 107, 47, 0.1) !important;
+    }
+    .mt-0-5 { margin-top: 2px; }
+</style>
 
-Create Event
-
-</button>
-
-</form>
-
-</body>
-</html>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}
