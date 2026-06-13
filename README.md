@@ -169,6 +169,68 @@ Displays:
 ```
 
 ---
+## Entity Relationship Diagram
+
+```mermaid
+erDiagram
+
+    USERS {
+        int id PK
+        string name
+        string email
+        string password
+        string role
+        datetime created_at
+    }
+
+    EVENTS {
+        int id PK
+        string title
+        text description
+        string venue
+        string date
+        string time
+        int capacity
+        string category
+        string status
+        int created_by FK
+    }
+
+    REGISTRATIONS {
+        int id PK
+        int user_id FK
+        int event_id FK
+    }
+
+    TASKS {
+        int id PK
+        string title
+        text description
+        string status
+        int event_id FK
+        int volunteer_id FK
+        datetime created_at
+    }
+
+    ANNOUNCEMENTS {
+        int id PK
+        string title
+        text content
+        int event_id FK
+        int created_by FK
+        datetime created_at
+    }
+
+    USERS ||--o{ REGISTRATIONS : registers
+    EVENTS ||--o{ REGISTRATIONS : contains
+
+    USERS ||--o{ TASKS : assigned_to
+    EVENTS ||--o{ TASKS : includes
+
+    USERS ||--o{ ANNOUNCEMENTS : creates
+    EVENTS ||--o{ ANNOUNCEMENTS : related_to
+```
+---
 
 # Database Entities
 
