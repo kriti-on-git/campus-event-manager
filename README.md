@@ -231,7 +231,151 @@ erDiagram
     EVENTS ||--o{ ANNOUNCEMENTS : related_to
 ```
 ---
+## API Endpoints
 
+### Authentication Endpoints
+
+| Method | Endpoint    | Description                                    |
+| ------ | ----------- | ---------------------------------------------- |
+| GET    | `/`         | Redirects user to login page                   |
+| GET    | `/register` | Displays user registration page                |
+| POST   | `/register` | Creates a new user account                     |
+| GET    | `/login`    | Displays login page                            |
+| POST   | `/login`    | Authenticates user and creates session         |
+| GET    | `/logout`   | Logs out user and clears authentication cookie |
+
+---
+
+### Dashboard Endpoint
+
+| Method | Endpoint     | Description                                                        |
+| ------ | ------------ | ------------------------------------------------------------------ |
+| GET    | `/dashboard` | Displays role-based dashboard with statistics and user information |
+
+---
+
+### Event Management Endpoints
+
+| Method | Endpoint                    | Description                       |
+| ------ | --------------------------- | --------------------------------- |
+| GET    | `/events`                   | Retrieves and displays all events |
+| GET    | `/events/create`            | Displays event creation form      |
+| POST   | `/events/create`            | Creates a new event               |
+| GET    | `/events/delete/{event_id}` | Deletes a selected event          |
+
+---
+
+### Event Registration Endpoints
+
+| Method | Endpoint                     | Description                                             |
+| ------ | ---------------------------- | ------------------------------------------------------- |
+| POST   | `/register-event/{event_id}` | Registers a participant for an event                    |
+| GET    | `/my-events`                 | Displays events registered by the logged-in participant |
+| GET    | `/registrations`             | Displays all event registrations                        |
+
+---
+
+### Task Management Endpoints
+
+| Method | Endpoint                           | Description                 |
+| ------ | ---------------------------------- | --------------------------- |
+| GET    | `/tasks`                           | Displays all tasks          |
+| GET    | `/tasks/create`                    | Displays task creation form |
+| POST   | `/tasks/create`                    | Creates and assigns a task  |
+| GET    | `/tasks/update/{task_id}/{status}` | Updates task status         |
+
+---
+
+### Announcement Endpoints
+
+| Method | Endpoint                | Description                 |
+| ------ | ----------------------- | --------------------------- |
+| GET    | `/announcements`        | Displays announcements page |
+| POST   | `/announcements/create` | Creates a new announcement  |
+
+---
+
+## API Summary
+
+| Module         | Total Endpoints  |
+| -------------- | ---------------- |
+| Authentication | 6                |
+| Dashboard      | 1                |
+| Events         | 4                |
+| Registrations  | 3                |
+| Tasks          | 4                |
+| Announcements  | 2                |
+| **Total**      | **20 Endpoints** |
+
+---
+
+## Route Parameters
+
+### Event ID
+
+Used to identify a specific event.
+
+```text
+/events/delete/{event_id}
+/register-event/{event_id}
+```
+
+Example:
+
+```text
+/events/delete/5
+/register-event/5
+```
+
+### Task ID and Status
+
+Used to update task progress.
+
+```text
+/tasks/update/{task_id}/{status}
+```
+
+Example:
+
+```text
+/tasks/update/12/Completed
+```
+
+---
+
+## HTTP Methods Used
+
+| Method | Purpose                               |
+| ------ | ------------------------------------- |
+| GET    | Retrieve pages and data               |
+| POST   | Create new resources and submit forms |
+
+The application follows a server-rendered architecture using FastAPI and Jinja2 templates, where most user interactions are handled through HTML forms and page redirects rather than JSON-based REST APIs.
+---
+## Setup & Installation Workflow
+
+```mermaid
+flowchart TD
+
+    A[Clone Repository] --> B[Create Virtual Environment]
+
+    B --> C[Activate Virtual Environment]
+
+    C --> D[Install Dependencies]
+
+    D --> E[Initialize Database]
+
+    E --> F[Start FastAPI Server]
+
+    F --> G[Open Browser]
+
+    G --> H[Access Campus Event Manager]
+
+    D -.-> D1["FastAPI<br/>SQLAlchemy<br/>Jinja2<br/>Uvicorn<br/>Passlib bcrypt<br/>Python-JOSE"]
+
+    E -.-> E1["SQLite Database<br/>Tables Auto-Created via<br/>Base.metadata.create_all()"]
+```
+---
 # Database Entities
 
 The system consists of the following entities:
@@ -287,53 +431,67 @@ app/
 
 ---
 
-# Installation Guide
+## Installation
 
-## 1. Clone Repository
+### 1. Clone Repository
 
 ```bash
 git clone <repository-url>
 cd campus-event-manager
 ```
 
-## 2. Create Virtual Environment
-
-### Linux / macOS
+### 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
+```
+
+### 3. Activate Environment
+
+#### Linux / macOS
+
+```bash
 source venv/bin/activate
 ```
 
-### Windows
+#### Windows
 
 ```bash
-python -m venv venv
 venv\Scripts\activate
 ```
 
----
-
-## 3. Install Dependencies
+### 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 4. Run Application
+### 5. Run Application
 
 ```bash
 uvicorn app.main:app --reload
 ```
-
 ---
+## Deployment Architecture
 
-## 5. Open Application
+```mermaid
+flowchart LR
 
-```text
-http://127.0.0.1:8000
+    U[User Browser]
+
+    U --> F[FastAPI Application]
+
+    F --> A[Authentication Module]
+    F --> E[Event Management]
+    F --> T[Task Management]
+    F --> R[Registration Management]
+    F --> N[Announcement Management]
+
+    A --> DB[(SQLite Database)]
+    E --> DB
+    T --> DB
+    R --> DB
+    N --> DB
 ```
 
 ---
